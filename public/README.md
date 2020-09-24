@@ -1,12 +1,12 @@
 # Vector Tile Map
 
-This is to provide the water supply network data through Mapbox Vector Tile format which is owned by `{your organization name}` in Kenya.
+This is to provide the water supply network data through Mapbox Vector Tile format which is owned by `Nanyuki Water and Serwerage Co., Ltd.` in Kenya.
 
 ## Usage
 
 Vector tile URL
 ```
-https://narwassco.github.io/vt/tiles/{z}/{x}/{y}.mvt
+https://nawasco.github.io/vt/tiles/{z}/{x}/{y}.mvt
 ```
 
 ## License
@@ -24,4 +24,4 @@ License][cc-by].
 
 
 ---
-Copyright (c) 2020 Jin IGARASHI
+Copyright (c) 2020 Nanyuki Water and Serwerage Co., Ltd.

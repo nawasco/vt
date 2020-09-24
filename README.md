@@ -1,12 +1,12 @@
 # vt-boilerplate
-![](https://github.com/narwassco/vt/workflows/Node.js%20CI/badge.svg)
-![GitHub](https://img.shields.io/github/license/watergis/vt-boilerplate)
+![](https://github.com/nawasco/vt/workflows/Node.js%20CI/badge.svg)
+![GitHub](https://img.shields.io/github/license/nawasco/vt)
 ![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/narwassco/vt)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/narwassco/vt)
 
 This is a template to manage vectortiles for water services providers in Github pages. You can create your own `vt` repository by using this template repository.
 
-Please also refer to [watergis/awesome-vector-tiles](https://github.com/watergis/awesome-vector-tiles). There is some instruction guide how to use tools and host your vectortiles in Github pages as open data.
+Please also refer to [watergis/docs](https://github.com/watergis/docs). There is some instruction guide how to use tools and host your vectortiles in Github pages as open data.
 
 ## Configuration
 All the settings are in `config.js` and `config-search.js`, so please make sure your own settings on this file before producing vector tile.
@@ -137,8 +137,8 @@ jobs:
 This source code under the repository is licensed by 
 `MIT license`. You can use it freely for your purposes.
 
-However, these data under [data](./data) and `gh-pages` branch are owned and maintained by `{your organization name}` in Kenya. It is under a [Creative Commons Attribution 4.0 International
-License](http://creativecommons.org/licenses/by/4.0/), which is different from main repository. You can use this data freely, but please mention our credit `©{your organization name}` on attribution of your web application.
+However, these data under [data](./data) and `gh-pages` branch are owned and maintained by `Nanyuki Water and Sewerage Company` in Kenya. It is under a [Creative Commons Attribution 4.0 International
+License](http://creativecommons.org/licenses/by/4.0/), which is different from main repository. You can use this data freely, but please mention our credit `©Nanyuki Water and Serwerage Co., Ltd.` on attribution of your web application.
 
 ---
-Copyright (c) 2020 Jin IGARASHI
+Copyright (c) 2020 Nanyuki Water and Serwerage Co., Ltd.
