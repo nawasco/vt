@@ -461,7 +461,7 @@ module.exports = {
               SELECT p FROM (
               SELECT
                 id as fid,
-                CASE WHEN plot_no IS NOT NULL THEN plot_no ELSE NULL END as plot_no,
+                CASE WHEN plot_no = '0' THEN NULL WHEN plot_no IS NOT NULL THEN plot_no ELSE NULL END as plot_no,
                 block_name
               ) AS p
             )) AS properties
@@ -494,7 +494,7 @@ module.exports = {
               SELECT p FROM (
               SELECT
                 id as fid,
-                CASE WHEN plot_no IS NOT NULL THEN plot_no ELSE NULL END as plot_no,
+                CASE WHEN plot_no = '0' THEN NULL WHEN plot_no IS NOT NULL THEN plot_no ELSE NULL END as plot_no,
                 block_name
               ) AS p
             )) AS properties
