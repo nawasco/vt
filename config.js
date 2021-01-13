@@ -6,7 +6,7 @@ module.exports = {
       password:process.env.db_password,
       host:process.env.db_host,
       port:process.env.db_port,
-      database:'gis_nawasco2',
+      database:process.env.db_name,
     },
     mbtiles: __dirname + '/data/nanyuki.mbtiles',
     minzoom: 10,
@@ -45,7 +45,7 @@ module.exports = {
                           CASE WHEN year_of_in = 0 THEN NULL ELSE year_of_in END as year_of_in
                       ) AS p
                     )) AS properties
-                  FROM pipeline
+                  FROM water_system.pipeline
                   WHERE NOT ST_IsEmpty(geom)
                 ) AS feature
               ) AS featurecollection
@@ -79,7 +79,7 @@ module.exports = {
                         type
                     ) AS p
                   )) AS properties
-                FROM sewerline
+                FROM sewer_system.sewerline
                 WHERE NOT ST_IsEmpty(geom)
               ) AS feature
             ) AS featurecollection
@@ -109,21 +109,18 @@ module.exports = {
                 SELECT
                   gid as fid, 
                   cast(accountno as integer) as accountno, 
-                  name, 
-                  plot_no, 
-                  status, 
+                  custname, 
+                  plotnumb as plot_no, 
                   category, 
-                  mtr_status, 
-                  cast(block as integer) as block, 
-                  mjr_cst, 
-                  sewered, 
-                  date_reg, 
-                  old_ac, 
-                  serial_no, 
-                  cast(year as integer) as year
+                  connecti as meter_status, 
+                  zoneid, 
+                  sewersta as sewered, 
+                  dateconn as connection_date, 
+                  oldconne as old_connection, 
+                  serialno
               ) AS p
             )) AS properties
-            FROM consumer_meters
+            FROM water_system.nawasco_customers_2021
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -155,7 +152,7 @@ module.exports = {
                   "Nmae" as name
               ) AS p
             )) AS properties
-            FROM kiosks
+            FROM water_system.kiosks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -191,7 +188,7 @@ module.exports = {
                   pwr_src
               ) AS p
             )) AS properties
-            FROM "Borehole"
+            FROM water_system.borehole
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -227,7 +224,7 @@ module.exports = {
                   ancillaryr
               ) AS p
             )) AS properties
-            FROM "Tank"
+            FROM water_system.tanks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -265,7 +262,7 @@ module.exports = {
                   outlet_dia
               ) AS p
             )) AS properties
-            FROM "BOOSTER_PUMP"
+            FROM water_system.booster_pump
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -301,7 +298,7 @@ module.exports = {
                   photo
               ) AS p
             )) AS properties
-            FROM chambers
+            FROM water_system.chambers
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -334,7 +331,7 @@ module.exports = {
                   depth
               ) AS p
             )) AS properties
-            FROM manholes_2020
+            FROM sewer_system.manholes_2020
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -366,7 +363,7 @@ module.exports = {
                 type
               ) AS p
             )) AS properties
-            FROM "T_wrks"
+            FROM water_system.treatment_works
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -399,7 +396,7 @@ module.exports = {
                 "NAMES"
               ) AS p
             )) AS properties
-            FROM blocks
+            FROM public.blocks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -432,7 +429,7 @@ module.exports = {
                 "NAMES"
               ) AS p
             )) AS properties
-            FROM blocks
+            FROM public.blocks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -465,7 +462,7 @@ module.exports = {
                 block_name
               ) AS p
             )) AS properties
-            FROM cadastral
+            FROM public.cadastral
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -498,7 +495,7 @@ module.exports = {
                 block_name
               ) AS p
             )) AS properties
-            FROM cadastral
+            FROM public.cadastral
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
