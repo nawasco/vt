@@ -4,9 +4,9 @@ on:
   schedule:
     - cron:  '0 9 * * *'
 
-  push:
-    # Run `master` as Docker `latest` image.
-    branches: [ master ]
+  # push:
+  #   # Run `master` as Docker `latest` image.
+  #   branches: [ master ]
 
 
 jobs:
