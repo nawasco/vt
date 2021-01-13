@@ -19,11 +19,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build mbtiles
       env:
-        db_user: ${{ secrets.db_user }}
-        db_password: ${{ secrets.db_password }}
-        db_host: ${{ secrets.db_host }}
-        db_port: ${{ secrets.db_port }}
-        db_name: ${{ secrets.db_name }}
+        db_user: ${{ secrets.DB_USER }}
+        db_password: ${{ secrets.DB_PASSWORD }}
+        db_host: ${{ secrets.DB_HOST }}
+        db_port: ${{ secrets.DB_PORT }}
+        db_name: ${{ secrets.DB_NAME }}
       run: docker-compose up
     - name: Push mbtiles to github
       env:
