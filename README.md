@@ -1,5 +1,5 @@
 # vt-boilerplate
-![](https://github.com/nawasco/vt/workflows/Node.js%20CI/badge.svg)
+![Docker Build & Deploy](https://github.com/nawasco/vt/workflows/Docker%20Build%20&%20Deploy/badge.svg)
 ![GitHub](https://img.shields.io/github/license/nawasco/vt)
 ![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/narwassco/vt)
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/narwassco/vt)
