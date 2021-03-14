@@ -112,7 +112,6 @@ module.exports = {
                   custname, 
                   plotnumb as plot_no, 
                   category, 
-                  connecti as meter_status, 
                   zoneid, 
                   sewersta as sewered, 
                   dateconn as connection_date, 
