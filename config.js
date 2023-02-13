@@ -8,7 +8,12 @@ module.exports = {
       port:process.env.db_port,
       database:process.env.db_name,
     },
+    name: 'NAWASCO Vector Tiles',
+    description: 'Vector tiles for water & sanitation data in Nanyuki Water and Sanitation company, Kenya',
+    attribution: '©Nanyuki Water and Sanitation Co., Ltd.',
     mbtiles: __dirname + '/data/nanyuki.mbtiles',
+    ghpages: __dirname + '/public/tiles',
+    createPmtiles: true,
     minzoom: 10,
     maxzoom: 16,
     layers : [
@@ -23,6 +28,7 @@ module.exports = {
                 FROM (
                   SELECT
                     'Feature' AS type,
+                    id,
                     ST_AsGeoJSON(ST_SetSRID(ST_MakeValid(geom),4326))::json AS geometry,
                     row_to_json((
                       SELECT t FROM (
@@ -34,7 +40,7 @@ module.exports = {
                     row_to_json((
                       SELECT p FROM (
                         SELECT
-                          gid as fid,  
+                          id as fid,  
                           linename,  
                           pipetype, 
                           ppmaterial, 
@@ -42,10 +48,11 @@ module.exports = {
                           class, 
                           arezone, 
                           funded, 
+                          "Length(m)",
                           CASE WHEN year_of_in = 0 THEN NULL ELSE year_of_in END as year_of_in
                       ) AS p
                     )) AS properties
-                  FROM water_system.pipeline
+                  FROM water_system.water_pipeline
                   WHERE NOT ST_IsEmpty(geom)
                 ) AS feature
               ) AS featurecollection
@@ -62,6 +69,7 @@ module.exports = {
               FROM (
                 SELECT
                   'Feature' AS type,
+                  id,
                   ST_AsGeoJSON(ST_SetSRID(ST_MakeValid(geom),4326))::json AS geometry,
                   row_to_json((
                     SELECT t FROM (
@@ -76,10 +84,11 @@ module.exports = {
                         id as fid,  
                         size, 
                         material, 
-                        type
+                        type,
+                        length
                     ) AS p
                   )) AS properties
-                FROM sewer_system.sewerline
+                FROM sewer_system.sewer_line
                 WHERE NOT ST_IsEmpty(geom)
               ) AS feature
             ) AS featurecollection
@@ -96,6 +105,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -107,19 +117,19 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
                 SELECT
-                  gid as fid, 
+                  id as fid, 
                   cast(accountno as integer) as accountno, 
                   custname, 
-                  plotnumb as plot_no, 
+                  plot_no, 
                   category, 
                   zoneid, 
-                  sewersta as sewered, 
-                  dateconn as connection_date, 
-                  oldconne as old_connection, 
+                  sewered, 
+                  connection as connection_date, 
+                  old_connec as old_connection, 
                   serialno
               ) AS p
             )) AS properties
-            FROM water_system.nawasco_customers_2021
+            FROM water_system.customer_meters
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -136,6 +146,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -148,10 +159,10 @@ module.exports = {
               SELECT p FROM (
                 SELECT
                   id as fid, 
-                  "Nmae" as name
+                  "nmae" as name
               ) AS p
             )) AS properties
-            FROM water_system.kiosks
+            FROM water_system.water_kiosks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -168,6 +179,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -179,7 +191,7 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
                 SELECT
-                  id_0 as fid, 
+                  id as fid, 
                   bh_name, 
                   "yld(m3/h)", 
                   supp_sz, 
@@ -187,7 +199,7 @@ module.exports = {
                   pwr_src
               ) AS p
             )) AS properties
-            FROM water_system.borehole
+            FROM water_system."Boreholes"
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -204,6 +216,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -215,7 +228,7 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
                 SELECT
-                  gid as fid, 
+                  id as fid, 
                   capacity, 
                   area_suppl, 
                   name, 
@@ -223,7 +236,7 @@ module.exports = {
                   ancillaryr
               ) AS p
             )) AS properties
-            FROM water_system.tanks
+            FROM water_system.storage_tanks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -240,6 +253,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -252,7 +266,7 @@ module.exports = {
               SELECT p FROM (
                 SELECT
                   id as fid, 
-                  name, 
+                  "NAME" as name, 
                   motorsize,
                   p_head, 
                   flow_rate, 
@@ -261,7 +275,7 @@ module.exports = {
                   outlet_dia
               ) AS p
             )) AS properties
-            FROM water_system.booster_pump
+            FROM water_system."BOOSTER_PUMP"
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -278,6 +292,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -303,39 +318,39 @@ module.exports = {
         ) AS featurecollection
         `
       },
-      {
-        name: 'manholes',
-        geojsonFileName: __dirname + '/manholes.geojson',
-        select:`
-        SELECT row_to_json(featurecollection) AS json FROM (
-          SELECT
-            'FeatureCollection' AS type,
-            array_to_json(array_agg(feature)) AS features
-          FROM (
-            SELECT
-            'Feature' AS type,
-            ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
-            row_to_json((
-              SELECT t FROM (
-                SELECT
-                  16 as maxzoom,
-                  14 as minzoom
-              ) AS t
-            )) AS tippecanoe,
-            row_to_json((
-              SELECT p FROM (
-                SELECT
-                  id as fid, 
-                  makemteria, 
-                  depth
-              ) AS p
-            )) AS properties
-            FROM sewer_system.manholes_2020
-            WHERE NOT ST_IsEmpty(geom)
-          ) AS feature
-        ) AS featurecollection
-        `
-      },
+      // {
+      //   name: 'manholes',
+      //   geojsonFileName: __dirname + '/manholes.geojson',
+      //   select:`
+      //   SELECT row_to_json(featurecollection) AS json FROM (
+      //     SELECT
+      //       'FeatureCollection' AS type,
+      //       array_to_json(array_agg(feature)) AS features
+      //     FROM (
+      //       SELECT
+      //       'Feature' AS type,
+      //       ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
+      //       row_to_json((
+      //         SELECT t FROM (
+      //           SELECT
+      //             16 as maxzoom,
+      //             14 as minzoom
+      //         ) AS t
+      //       )) AS tippecanoe,
+      //       row_to_json((
+      //         SELECT p FROM (
+      //           SELECT
+      //             id as fid, 
+      //             makemteria, 
+      //             depth
+      //         ) AS p
+      //       )) AS properties
+      //       FROM sewer_system.manholes_2020
+      //       WHERE NOT ST_IsEmpty(geom)
+      //     ) AS feature
+      //   ) AS featurecollection
+      //   `
+      // },
       {
         name: 't_wrks',
         geojsonFileName: __dirname + '/t_wrks.geojson',
@@ -347,6 +362,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -358,11 +374,11 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
               SELECT
-                id_0 as fid,
+                id as fid,
                 type
               ) AS p
             )) AS properties
-            FROM water_system.treatment_works
+            FROM water_system.t_works
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -379,6 +395,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -390,12 +407,12 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
               SELECT
-                id_0 as fid,
-                "BLOCK", 
-                "NAMES"
+                id as fid,
+                block, 
+                names
               ) AS p
             )) AS properties
-            FROM public.blocks
+            FROM public.supply_blocks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -412,6 +429,7 @@ module.exports = {
           FROM (
             SELECT
             'Feature' AS type,
+            id,
             ST_AsGeoJSON(ST_SetSRID(ST_CENTROID(geom),4326))::json AS geometry,
             row_to_json((
               SELECT t FROM (
@@ -423,12 +441,12 @@ module.exports = {
             row_to_json((
               SELECT p FROM (
               SELECT
-                id_0 as fid,
-                "BLOCK", 
-                "NAMES"
+                id as fid,
+                block, 
+                names
               ) AS p
             )) AS properties
-            FROM public.blocks
+            FROM public.supply_blocks
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -461,7 +479,7 @@ module.exports = {
                 block_name
               ) AS p
             )) AS properties
-            FROM public.cadastral
+            FROM public.cadastral_nanyuki
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
@@ -494,7 +512,7 @@ module.exports = {
                 block_name
               ) AS p
             )) AS properties
-            FROM public.cadastral
+            FROM public.cadastral_nanyuki
             WHERE NOT ST_IsEmpty(geom)
           ) AS feature
         ) AS featurecollection
