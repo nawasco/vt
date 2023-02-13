@@ -318,39 +318,40 @@ module.exports = {
         ) AS featurecollection
         `
       },
-      // {
-      //   name: 'manholes',
-      //   geojsonFileName: __dirname + '/manholes.geojson',
-      //   select:`
-      //   SELECT row_to_json(featurecollection) AS json FROM (
-      //     SELECT
-      //       'FeatureCollection' AS type,
-      //       array_to_json(array_agg(feature)) AS features
-      //     FROM (
-      //       SELECT
-      //       'Feature' AS type,
-      //       ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
-      //       row_to_json((
-      //         SELECT t FROM (
-      //           SELECT
-      //             16 as maxzoom,
-      //             14 as minzoom
-      //         ) AS t
-      //       )) AS tippecanoe,
-      //       row_to_json((
-      //         SELECT p FROM (
-      //           SELECT
-      //             id as fid, 
-      //             makemteria, 
-      //             depth
-      //         ) AS p
-      //       )) AS properties
-      //       FROM sewer_system.manholes_2020
-      //       WHERE NOT ST_IsEmpty(geom)
-      //     ) AS feature
-      //   ) AS featurecollection
-      //   `
-      // },
+      {
+        name: 'manholes',
+        geojsonFileName: __dirname + '/manholes.geojson',
+        select:`
+        SELECT row_to_json(featurecollection) AS json FROM (
+          SELECT
+            'FeatureCollection' AS type,
+            array_to_json(array_agg(feature)) AS features
+          FROM (
+            SELECT
+            'Feature' AS type,
+            id,
+            ST_AsGeoJSON(ST_SetSRID(geom,4326))::json AS geometry,
+            row_to_json((
+              SELECT t FROM (
+                SELECT
+                  16 as maxzoom,
+                  14 as minzoom
+              ) AS t
+            )) AS tippecanoe,
+            row_to_json((
+              SELECT p FROM (
+                SELECT
+                  id as fid, 
+                  makemteria, 
+                  depth
+              ) AS p
+            )) AS properties
+            FROM sewer_system.manholes
+            WHERE NOT ST_IsEmpty(geom)
+          ) AS feature
+        ) AS featurecollection
+        `
+      },
       {
         name: 't_wrks',
         geojsonFileName: __dirname + '/t_wrks.geojson',
