@@ -58,14 +58,6 @@ $ db_user=$db_user \
   db_port=5432 \
   npm run create
 ```
-# db_user=postgres
- # db_password=gis
- # db_host=197.248.136.202
-#  db_port=5432 
-#  db=nawasco_gis
-
-
-
 
 There will be two files as follows.
 - ./data/rwss.mbtile
