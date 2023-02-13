@@ -29,7 +29,7 @@ module.exports = {
                     x.serialno
                 ) AS p
               )) AS properties
-              FROM water_system.nawasco_customers_2021 x
+              FROM water_system.customer_meters x
               WHERE NOT ST_IsEmpty(x.geom)
             ) AS feature
           ) AS featurecollection
