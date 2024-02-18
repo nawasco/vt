@@ -3,6 +3,7 @@ name: Docker Build & Deploy
 on:
   schedule:
     - cron:  '0 9 * * *'
+  workflow_dispatch:
 
 #   push:
 #     # Run `master` as Docker `latest` image.
