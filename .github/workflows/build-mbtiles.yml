@@ -19,13 +19,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build mbtiles
-      env:
-        db_user: ${{ secrets.DB_USER }}
-        db_password: ${{ secrets.DB_PASSWORD }}
-        db_host: ${{ secrets.DB_HOST }}
-        db_port: ${{ secrets.DB_PORT }}
-        db_name: ${{ secrets.DB_NAME }}
-      run: docker-compose up
+      run: |
+        docker run \
+        -e db_host=${{ secrets.DB_HOST }} \
+        -e db_port=${{ secrets.DB_PORT }} \
+        -e db_name=${{ secrets.DB_NAME }} \
+        -e db_user=${{ secrets.DB_USER }} \
+        -e db_password=${{ secrets.db_password }} \
+        -v ./data:/tmp/src/data \
+        -v ./public:/tmp/src/public \
+        -v ./config.js:/tmp/src/config.js \
+        -v ./config-search.js:/tmp/src/config-search.js \
+        ${{ vars.DOCKER_IMAGE }}
     - name: Push mbtiles to github
       if: ${{ github.ref == 'refs/heads/master' }}
       env:
