@@ -48,8 +48,8 @@ module.exports = {
                           class, 
                           arezone, 
                           funded, 
-                          "Length(m)",
-                          CASE WHEN year_of_in = 0 THEN NULL ELSE year_of_in END as year_of_in
+                          "length(m)",
+                          year_of_in
                       ) AS p
                     )) AS properties
                   FROM water_system.water_pipeline
